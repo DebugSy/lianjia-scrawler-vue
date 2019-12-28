@@ -1,113 +1,44 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          Core Docs
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
-      </li>
-    </ul>
-  </div>
+  <ve-histogram :data="chartData" :settings="chartSettings"></ve-histogram>
 </template>
 
 <script>
-export default {
-  name: 'HelloWorld',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App -- HelloWorld2'
+  import axios from "axios";
+
+  export default {
+    data: function () {
+      this.chartSettings = {
+        labelMap: {
+          'community': '小区名称',
+          'avgPrice': '均价',
+          'houseCount': '在售房源量'
+        },
+        legendName: {
+          '小区名称': '访问用户 total: 10000'
+        }
+      };
+      return {
+        chartData: {
+          columns: ['community', 'avgPrice', 'houseCount'],
+          rows: [
+            {'community': '1/1', 'avgPrice': 1393, 'houseCount': 1093},
+            {'community': '1/1', 'avgPrice': 1393, 'houseCount': 1093}
+          ]
+        }
+      }
+    },
+    mounted() {
+      axios.get('/api/scrawler/houses/avg').then(res => {
+        this.chartData.rows = res.data;
+      }).catch(function (error) {
+        console.error(error)
+      });
     }
-  }
-}
+  };
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+
 </style>
