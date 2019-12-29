@@ -19,6 +19,8 @@
       </el-option>
     </el-select>
 
+    <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+
     <!-- 绘图 -->
     <ve-histogram :data="chartData" :settings="chartSettings"></ve-histogram>
   </div>
@@ -62,7 +64,7 @@
       });
     },
     methods: {
-      remoteMethod: function(query) {
+      remoteMethod: function (query) {
         var _this = this;
         if (query !== '') {
 
