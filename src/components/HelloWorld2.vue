@@ -19,7 +19,7 @@
       </el-option>
     </el-select>
 
-    <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+    <el-button icon="el-icon-search" type="primary" v-on:click="submitForm">搜索</el-button>
 
     <!-- 绘图 -->
     <ve-histogram :data="chartData" :settings="chartSettings"></ve-histogram>
@@ -74,7 +74,6 @@
               return {value: `${item.title}`, label: `${item.title}`};
             })
             _this.list = map
-            debugger
           }).catch(function (error) {
             console.error(error)
           });
@@ -90,6 +89,16 @@
         } else {
           this.options = [];
         }
+      },
+      submitForm: function () {
+        console.log(this.value)
+        axios.post('/api/scrawler/houses/avg/compare', this.value)
+          .then(res => {
+            this.chartData.rows = res.data;
+          })
+          .catch(function (error) {
+            console.error(error)
+          })
       }
     }
   };

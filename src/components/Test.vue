@@ -63,7 +63,6 @@
               return {value: `${item.title}`, label: `${item.title}`};
             })
             _this.list = map
-            debugger
           }).catch(function (error) {
             console.error(error)
           });
