@@ -22,7 +22,7 @@
     <el-button icon="el-icon-search" type="primary" v-on:click="submitForm">搜索</el-button>
 
     <!-- 绘图 -->
-    <ve-histogram :data="chartData" :settings="chartSettings"></ve-histogram>
+    <ve-histogram :data="chartData" :settings="chartSettings" :events="chartEvents"></ve-histogram>
   </div>
 </template>
 
@@ -39,6 +39,11 @@
         },
         legendName: {
           '小区名称': '访问用户 total: 10000'
+        }
+      };
+      this.chartEvents = {
+        click: function (e) {
+          console.log(e)
         }
       };
       return {
