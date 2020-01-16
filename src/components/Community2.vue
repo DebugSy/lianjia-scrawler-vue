@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div align="center">
     <!-- select -->
     <el-select
       v-model="value"
@@ -20,42 +20,45 @@
 
     <el-button icon="el-icon-search" type="primary" v-on:click="submitForm">搜索</el-button>
 
-    <div class="table-wrapper table">
-      <table cellspacing="0" cellpadding="0" border="0" style="width: 1154px;">
-        <colgroup>
-          <col width="300">
-        </colgroup>
-        <tbody class="ivu-table-tbody">
-        <tr>
-          <td>
-            <div class="table-cell">对比项</div>
-          </td>
-          <td v-for="(len, index) in tableData.length" :key="index">
-            <div class="table-cell">
-              项目{{len}}
-            </div>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-      <table cellspacing="0" cellpadding="0" border="0" style="width: 1154px;">
-        <colgroup>
-          <col width="300">
-        </colgroup>
-        <tbody class="ivu-table-tbody">
-        <tr>
-        <tr v-for="(headItem, index) in Object.keys(tableData[0])" :key="index">
-          <td>
-            <div class="table-cell">
-              {{headItem}}
-            </div>
-          </td>
-          <td v-for="(item, index) in tableData" :key="index">
-            <div class="table-cell">{{item[headItem]}}</div>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+    <div class="el-table el-table__header-wrapper" style="margin-top: 20px">
+      <div class="el-table__body-wrapper">
+        <table cellspacing="0" cellpadding="0" border="0" style="width: 1154px;">
+          <colgroup>
+            <col width="300">
+          </colgroup>
+          <tbody class="ivu-table-tbody">
+          <tr>
+            <td>
+              <div class="table-cell">对比项</div>
+            </td>
+            <td v-for="(len, index) in tableData.length" :key="index">
+              <div class="table-cell">
+                项目{{len}}
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <table cellspacing="0" cellpadding="0" border="0" style="width: 1154px;">
+          <colgroup>
+            <col width="300">
+          </colgroup>
+          <tbody class="ivu-table-tbody">
+          <tr>
+          <tr v-for="(headItem, index) in Object.keys(tableData[0])" :key="index">
+            <td>
+              <div class="table-cell">
+                {{headItem}}
+              </div>
+            </td>
+            <td v-for="(item, index) in tableData" :key="index">
+              <div class="table-cell" v-if="headItem === 'link'"><a :href="item[headItem]" target="_blank">链家看房</a></div>
+              <div class="table-cell" v-if="headItem !== 'link'">{{item[headItem]}}</div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -131,8 +134,8 @@
 
           this.loading = true;
           setTimeout(() => {
-            this.loading = false;
-            this.options = this.list.filter(item => {
+            _this.loading = false;
+            _this.options = _this.list.filter(item => {
               return item.label.toLowerCase()
                 .indexOf(query.toLowerCase()) > -1;
             });
@@ -151,6 +154,11 @@
           .catch(function (error) {
             console.error(error)
           })
+      },
+      replaceMessage(value){
+        var url;
+        url="http://localhost:63343/web-p/web-project/src/Result/Result.html?item="+value;
+        return url;
       }
     }
   }
